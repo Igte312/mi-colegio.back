@@ -1,0 +1,101 @@
+Mi Colegio - Backend
+
+Este es el backend del proyecto Mi Colegio, construido con Spring Boot 3 y Java 17. Contiene un ejemplo de endpoint para probar la conexión con el frontend y configuraciones iniciales, incluyendo CORS y variables de entorno.
+
+Requisitos
+
+Java 17
+
+Maven 3.8+
+
+Git
+
+(Opcional) SQL Server si quieres usar la base de datos
+
+Configuración de variables de entorno
+
+Antes de ejecutar la aplicación, asegúrate de definir las variables de entorno que tu .env contiene. Por ejemplo, en PowerShell:
+
+Get-Content .env | ForEach-Object {
+    if ($_ -match "^(.*?)=(.*)$") {
+        [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2], "Process")
+    }
+}
+
+
+Esto cargará las variables en el proceso actual. El backend utiliza estas variables para configurar puerto, contexto de la API y CORS.
+
+Ejemplo de .env
+# Server
+SERVER_CONTEXT_PATH=/api/v1
+SERVER_PORT=8080
+
+# CORS
+CORS_ALLOWED_ORIGIN=http://localhost:5173
+
+# Logging
+LOG_SPRING=INFO
+LOG_APP=DEBUG
+
+# Base de datos (opcional)
+DB_URL=jdbc:sqlserver://localhost:1433;databaseName=Example;encrypt=true;trustServerCertificate=true
+DB_USER=sa
+DB_PASS=123Admin123
+DB_DRIVER=com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+Levantar la aplicación
+
+Desde la carpeta del proyecto:
+
+mvn clean install
+mvn spring-boot:run
+
+
+Si todo funciona correctamente, verás algo como:
+
+Tomcat initialized with port 8080 (http)
+Root WebApplicationContext: initialization completed
+
+Endpoint de ejemplo
+
+Se incluye un endpoint de prueba para probar la conexión frontend-backend:
+
+GET http://localhost:8080/api/v1/example/hello
+
+
+Respuesta esperada:
+
+{
+  "code": 200,
+  "message": "Successful",
+  "traceId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "data": {
+    "message": "Hola desde API"
+  }
+}
+
+Configuración CORS
+
+El backend permite solicitudes desde el frontend definido en .env:
+
+@Value("${app.cors.allowed-origin}")
+private String allowedOrigin;
+
+@Override
+public void addCorsMappings(CorsRegistry registry) {
+    registry.addMapping("/**")
+            .allowedOrigins(allowedOrigin)
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+            .allowedHeaders("*");
+}
+
+
+Esto asegura que el frontend en http://localhost:5173 pueda hacer solicitudes sin problemas de CORS.
+
+Notas
+
+Actualmente no se requiere base de datos para probar el endpoint de ejemplo.
+
+Para usar la base de datos, configura las variables DB_URL, DB_USER, DB_PASS y descomenta los repositorios JPA.
+
+Puedes modificar SERVER_PORT y SERVER_CONTEXT_PATH desde el .env.
