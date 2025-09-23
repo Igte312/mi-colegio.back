@@ -1,0 +1,29 @@
+# Ignorar carpetas de compilación de Maven
+target/
+pom.xml.backup
+
+# Ignorar configuración local de Docker
+docker.env
+.dockerignore
+
+# Ignorar archivos de control de versiones
+.git/
+.gitignore
+
+# Ignorar logs
+*.log
+
+# Archivos del IDE / OS
+*.iml
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Archivos temporales o cachés
+*.tmp
+*.swp
+*.class
+
+# Ignorar node_modules si existe por algún front integrado
+node_modules/
