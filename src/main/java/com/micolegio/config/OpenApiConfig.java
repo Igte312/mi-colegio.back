@@ -12,8 +12,8 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("My API Documentation")
+                        .title("MiColegio API Documentation")
                         .version("1.0")
-                        .description("Documentation API Spring Boot maven seed"));
+                        .description("Documentation API MiColegio"));
     }
 }
