@@ -18,7 +18,14 @@ public class AzureTokenService {
     }
 
     public String getEmail(Jwt jwt) {
-        return jwt.getClaimAsString("preferred_username");
+
+        String email = jwt.getClaimAsString("email");
+
+        if (email == null) {
+            email = jwt.getClaimAsString("unique_name");
+        }
+
+        return email;
     }
 }
 
