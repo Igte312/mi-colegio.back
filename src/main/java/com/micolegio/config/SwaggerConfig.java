@@ -23,9 +23,9 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("API MS-Core")
+                        .title("API Mi Colegio")
                         .version("1.0")
-                        .description("Documentación MS-Core."))
+                        .description("Documentación Mi-Colegio."))
                 .addSecurityItem(new SecurityRequirement().addList("JWT_AUTH"))
                 .components(new Components());
     }

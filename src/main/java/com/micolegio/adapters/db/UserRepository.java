@@ -43,11 +43,11 @@ public class UserRepository implements IUserRepository {
                 r.name AS role_name,
                 u.school_id,
                 s.name AS school_name
-            FROM USER_APP u
-                JOIN ROLE r ON u.role_id = r.id
-                JOIN SCHOOL s ON s.id = u.school_id
+            FROM public."USER" u           -- ¡CORRECCIÓN AQUÍ!
+                JOIN public."ROLE" r ON u.role_id = r.id   -- ¡CORRECCIÓN AQUÍ!
+                JOIN public."SCHOOL" s ON s.id = u.school_id -- ¡CORRECCIÓN AQUÍ!
             WHERE u.email = ?
-                AND u.is_active = 1
+                AND u.is_active = TRUE
         """;
 
         return jdbcTemplate.queryForObject(sql, userBasicInfoRowMapper, email);
