@@ -19,18 +19,18 @@ public class CourseRepository implements ICourseRepository{
     @Override
     public List<Course> findBySchoolId(long schoolId) {
         String sql = """
-            SELECT
-                id,
-                name,
-                [level],
-                letter,
-                school_id,
-                homeroom_teacher_id,
-                created_at
-            FROM [db-micolegio].dbo.COURSE
-            WHERE school_id = ?
-            """;
-    
-            return jdbcTemplate.query(sql, COURSE_ROW_MAPPER, schoolId);
+                SELECT
+                    id,
+                    name,
+                    "level",                -- Se usa comillas dobles para la palabra reservada
+                    letter,
+                    school_id,
+                    homeroom_teacher_id,
+                    created_at
+                FROM public."COURSE"        -- Se usa comillas dobles y MAYÚSCULAS
+                WHERE school_id = ?
+                """;
+
+        return jdbcTemplate.query(sql, COURSE_ROW_MAPPER, schoolId);
     }
 }
