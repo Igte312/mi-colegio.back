@@ -22,12 +22,12 @@ public class CourseRepository implements ICourseRepository{
                 SELECT
                     id,
                     name,
-                    "level",                -- Se usa comillas dobles para la palabra reservada
+                    "level",
                     letter,
                     school_id,
                     homeroom_teacher_id,
                     created_at
-                FROM public."COURSE"        -- Se usa comillas dobles y MAYÚSCULAS
+                FROM public."COURSE"
                 WHERE school_id = ?
                 """;
 
