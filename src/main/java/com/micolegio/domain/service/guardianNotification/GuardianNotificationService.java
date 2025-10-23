@@ -80,7 +80,7 @@ public class GuardianNotificationService implements IGuardianNotificationService
                 .append(",<br><br>")
                 .append("Le informamos que se ha generado la nueva lista de útiles escolares para su pupilo ")
                 .append(guardian.getStudentName())
-                .append(".<br>Por favor, revise el sistema para ver los detalles actualizados.<br><br>")
+                .append(".<br>Hemos agregado una tabla de compras donde podrá encontrar recomendaciones de comercios con sus mejores ofertas sugeridas por una inteligencia artificial.<br><br>")
                 ;
 
         // Lista de útiles
@@ -106,7 +106,7 @@ public class GuardianNotificationService implements IGuardianNotificationService
                 .append("<th>Delivery</th>")
                 .append("<th>Precio Total</th>")
                 .append("<th>Costo Delivery</th>")
-                .append("<th>Observaciones</th>")
+                //.append("<th>Observaciones</th>")
                 .append("</tr>");
 
         for (ComercioComparacion c : comparacion.getComparacion()) {
@@ -117,7 +117,7 @@ public class GuardianNotificationService implements IGuardianNotificationService
                     .append("<td>").append(c.getTieneDelivery() ? "Sí" : "No").append("</td>")
                     .append("<td>").append(c.getPrecioTotal()).append("</td>")
                     .append("<td>").append(c.getCostoDelivery()).append("</td>")
-                    .append("<td>").append(c.getObservaciones()).append("</td>")
+                    //.append("<td>").append(c.getObservaciones()).append("</td>")
                     .append("</tr>");
         }
         html.append("</table>");
