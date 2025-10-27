@@ -4,9 +4,12 @@ import com.micolegio.adapters.db.IStudentGuardianRepository;
 import com.micolegio.commons.exception.BadRequestException;
 import com.micolegio.commons.exception.NotFoundException;
 import com.micolegio.domain.service.dto.request.StudentGuardianCsvRequest;
+import com.micolegio.domain.service.dto.response.StudentGuardianResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -40,5 +43,15 @@ public class StudentGuardianService implements IStudentGuardianService {
         // Clean up orphaned records
         studentGuardianRepository.deleteOrphanedStudents();
         studentGuardianRepository.deleteOrphanedGuardians();
+    }
+
+    @Override
+    public List<StudentGuardianResponse> getStudentsAndGuardiansByCourseId(Long courseId) {
+        // Validate that course exists
+        if (!((com.micolegio.adapters.db.StudentGuardianRepository) studentGuardianRepository).courseExists(courseId)) {
+            throw new NotFoundException("Course with ID " + courseId + " not found");
+        }
+
+        return studentGuardianRepository.findStudentsAndGuardiansByCourseId(courseId);
     }
 }

@@ -1,6 +1,7 @@
 package com.micolegio.adapters.db;
 
 import com.micolegio.domain.service.dto.request.StudentGuardianCsvData;
+import com.micolegio.domain.service.dto.response.StudentGuardianResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -105,5 +106,35 @@ public class StudentGuardianRepository implements IStudentGuardianRepository {
                  AND NOT EXISTS (SELECT 1 FROM "STUDENT_GUARDIAN" sg2 WHERE sg2.student_id = p.id);
             """;
         jdbcTemplate.update(sql);
+    }
+
+    @Override
+    public List<StudentGuardianResponse> findStudentsAndGuardiansByCourseId(Long courseId) {
+        String sql = """
+            SELECT
+                sg.student_id,
+                CONCAT(s.first_name, ' ', s.last_name) as student_name,
+                s.email as student_email,
+                sg.guardian_id,
+                CONCAT(g.first_name, ' ', g.last_name) as guardian_name,
+                g.email as guardian_email
+            FROM public."STUDENT_COURSE" sc
+            JOIN public."PERSON" s ON sc.student_id = s.id
+            JOIN public."STUDENT_GUARDIAN" sg ON s.id = sg.student_id
+            JOIN public."PERSON" g ON sg.guardian_id = g.id
+            WHERE sc.course_id = ?
+            AND s.is_active = true
+            AND g.is_active = true
+            ORDER BY s.first_name, s.last_name
+            """;
+
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new StudentGuardianResponse(
+                rs.getInt("student_id"),
+                rs.getString("student_name"),
+                rs.getString("student_email"),
+                rs.getInt("guardian_id"),
+                rs.getString("guardian_name"),
+                rs.getString("guardian_email")
+        ), courseId);
     }
 }

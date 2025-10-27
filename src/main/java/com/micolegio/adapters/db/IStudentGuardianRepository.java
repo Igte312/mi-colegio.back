@@ -1,6 +1,7 @@
 package com.micolegio.adapters.db;
 
 import com.micolegio.domain.service.dto.request.StudentGuardianCsvData;
+import com.micolegio.domain.service.dto.response.StudentGuardianResponse;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface IStudentGuardianRepository {
     void deleteOrphanedStudents();
 
     void deleteOrphanedGuardians();
+
+    List<StudentGuardianResponse> findStudentsAndGuardiansByCourseId(Long courseId);
 }
